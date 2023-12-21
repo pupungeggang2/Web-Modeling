@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>WebGL Modeling</title>
         <style>
+            body {
+                overflow : hidden;
+                overscroll-behavior : contain;
+                touch-action : none;
+            }
+
             #LeftUI {
                 border : 2px solid black;
                 position : absolute;
@@ -33,6 +40,8 @@
         <script src="Script/Const.js"></script>
 
         <script src="Script/FunctionPhysics.js"></script>
+        <script src="Script/FunctionSave.js"></script>
+        <script src="Script/FunctionProgram.js"></script>
         <script src="Script/FunctionMath.js"></script>
         <script src="Script/FunctionDraw.js"></script>
 
