@@ -6,7 +6,12 @@ function main() {
     canvasUI = document.getElementById('LeftUI')
     contextUI = canvasUI.getContext('2d')
     canvasG = document.getElementById('Screen')
-    contextG = canvasG.getContext('webgl')
+    gl = canvasG.getContext('webgl')
+
+    if (!gl) {
+        alert('No GL!')
+        return
+    }
 
     window.addEventListener('keydown', keyDownUI, false)
     window.addEventListener('keyup', keyUpUI, false)
@@ -29,7 +34,43 @@ function main() {
 }
 
 function glInit() {
+    let sourceShaderVertex = `
+        attribute vec4 a_position;
 
+        void main() {
+            gl_Position = a_position;
+        }
+    `
+    let sourceShaderFragment = `
+        precision mediump float;
+
+        void main() {
+            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+        }
+    `
+    program = gl.createProgram()
+
+    shaderVertex = gl.createShader(gl.VERTEX_SHADER)
+    gl.shaderSource(shaderVertex, sourceShaderVertex)
+    gl.compileShader(shaderVertex)
+
+    shaderFragment = gl.createShader(gl.FRAGMENT_SHADER)
+    gl.shaderSource(shaderFragment, sourceShaderFragment)
+    gl.compileShader(shaderFragment)
+
+    gl.attachShader(program, shaderVertex)
+    gl.attachShader(program, shaderFragment)
+    gl.linkProgram(program)
+    gl.useProgram(program)
+
+    bufferVertex = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
+    bufferIndex = gl.createBuffer()
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufferIndex)
+
+    let coord = gl.getAttribLocation(program, 'a_position')
+    gl.vertexAttribPointer(coord, 3, gl.FLOAT, false, 0, 0)
+    gl.enableVertexAttribArray(coord)
 }
 
 function loop() {
