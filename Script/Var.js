@@ -17,3 +17,9 @@ let shaderFragment
 let bufferVertex
 let bufferIndex
 let currentColor
+
+// Variables related to program
+let modeling
+let matrixCamera
+let matrixRotate
+let matrixRotateInverse

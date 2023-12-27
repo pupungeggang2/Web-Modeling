@@ -6,5 +6,6 @@ let img = {
 }
 
 function imageLoad() {
-    
+    img.button.rectangle.src = 'Image/ButtonRectangle.png'
+    img.button.polygon.src = 'Image/ButtonPolygon.png'   
 }
