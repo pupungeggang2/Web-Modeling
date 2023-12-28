@@ -1,5 +1,7 @@
 function loopScene() {
-    displayScene()   
+    drawSceneUIInit()
+    drawUpperUI()
+    displayScene()
 }
 
 function displayScene() {
