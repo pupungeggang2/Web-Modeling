@@ -12,9 +12,11 @@ function drawSceneUIInit() {
 function drawUpperUI() {
     contextUI.drawImage(img.button.newFile, UI.buttonNew[0], UI.buttonNew[1])
     contextUI.drawImage(img.button.save, UI.buttonSave[0], UI.buttonSave[1])
+    contextUI.drawImage(img.button.pointer, UI.buttonPointer[0], UI.buttonPointer[1])
     contextUI.drawImage(img.button.move, UI.buttonMove[0], UI.buttonMove[1])
     contextUI.drawImage(img.button.rotate, UI.buttonRotate[0], UI.buttonRotate[1])
-    contextUI.drawImage(img.button.select, UI.buttonSelect[0], UI.buttonSelect[1])
+    contextUI.drawImage(img.button.selectSketch, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
+    contextUI.drawImage(img.button.selectBody, UI.buttonSelectBody[0], UI.buttonSelectBody[1])
     
     contextUI.drawImage(img.button.rectangle, UI.buttonRectangle[0], UI.buttonRectangle[1])
     contextUI.drawImage(img.button.polygon, UI.buttonPolygon[0], UI.buttonPolygon[1])
