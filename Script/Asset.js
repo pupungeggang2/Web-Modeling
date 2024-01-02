@@ -7,15 +7,17 @@ let img = {
         rotate : new Image(),
         selectSketch :  new Image(),
         selectBody : new Image(),
+        moveObject : new Image(),
+        rotateObject : new Image(),
+        removeObject : new Image(),
 
         rectangle : new Image(),
         polygon : new Image(),
         free : new Image(),
         extrude : new Image(),
-        moveObject : new Image(),
-        rotateObject : new Image(),
-        removeObject : new Image(),
-    }
+    },
+
+    selectFrame : new Image(),
 }
 
 function imageLoad() {
@@ -26,12 +28,14 @@ function imageLoad() {
     img.button.rotate.src = 'Image/ButtonRotate.png'
     img.button.selectSketch.src = 'Image/ButtonSelectSketch.png'
     img.button.selectBody.src = 'Image/ButtonSelectBody.png'
+    img.button.moveObject.src = 'Image/ButtonMoveObject.png'
+    img.button.rotateObject.src = 'Image/ButtonRotateObject.png'
+    img.button.removeObject.src = 'Image/ButtonRemoveObject.png'
     
     img.button.rectangle.src = 'Image/ButtonRectangle.png'
     img.button.polygon.src = 'Image/ButtonPolygon.png'
     img.button.free.src = 'Image/ButtonFree.png'
     img.button.extrude.src = 'Image/ButtonExtrude.png'
-    img.button.moveObject.src = 'Image/ButtonMoveObject.png'
-    img.button.rotateObject.src = 'Image/ButtonRotateObject.png'
-    img.button.removeObject.src = 'Image/ButtonRemoveObject.png'
+
+    img.selectFrame.src = 'Image/SelectFrame.png'
 }

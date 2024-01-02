@@ -1,13 +1,64 @@
 function loopScene() {
-    drawSceneUIInit()
-    drawUpperUI()
     displayScene()
 }
 
 function displayScene() {
-    gl.clearColor(0, 0, 0, 1)
-    gl.clear(gl.COLOR_BUFFER_BIT)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 1, 0, 0, 1, 0, 0, 0, 0]), gl.STATIC_DRAW)
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2]), gl.STATIC_DRAW)
-    gl.drawArrays(gl.TRIANGLES, 0, 3)
+    drawSceneUIInit()
+    drawSceneInit()
+    drawUpperUI()
+    drawAxis()
+}
+
+function keyDownUIScene(key) {
+}
+
+function keyUpUIScene(key) {
+    if (state === '') {
+
+    }
+}
+
+function mouseUpUIScene(x, y, button) {
+    if (state === '') {
+        if (pointInsideRectArray(x, y, UI.buttonNew)) {
+            
+        } else if (pointInsideRectArray(x, y, UI.buttonSave)) {
+            state = 'Save'
+        }
+        
+        if (pointInsideRectArray(x, y, UI.buttonPointer)) {
+            stateEdit = ''
+        } else if (pointInsideRectArray(x, y, UI.buttonMove)) {
+            stateEdit = 'CameraMove'
+        } else if (pointInsideRectArray(x, y, UI.buttonRotate)) {
+            stateEdit = 'CameraRotate'
+        }
+    } else if (state === 'Save') {
+        state = ''
+        let a = document.createElement('a')
+        a.setAttribute('id', 'TempSave')
+        a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('123'))
+        a.setAttribute('download', '123.txt')
+        document.body.appendChild(a)
+        a.click()
+        document.removeChild(a)
+    }
+}
+
+function mouseDownGScene(x, y, button) {
+    if (state === '') {
+
+    }
+}
+
+function mouseMoveGScene(x, y, button) {
+    if (state === '') {
+
+    }
+}
+
+function mouseUpGScene(x, y, button) {
+    if (state === '') {
+        
+    }
 }
