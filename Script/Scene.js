@@ -12,6 +12,17 @@ function displayScene() {
 }
 
 function keyDownUIScene(key) {
+    if (state === 'Save') {
+        if (key.length === 1) {
+            if (key >= 'a' && key <= 'z' || key >= 'A' && key <= 'Z' || key >= '0' && key <= '9') {
+                fileName = fileName + key
+            }
+        } else if (key === 'Backspace') {
+            if (fileName.length > 0) {
+                fileName = fileName.slice(0, fileName.length - 1)
+            }
+        }
+    }
 }
 
 function keyUpUIScene(key) {
@@ -26,6 +37,7 @@ function mouseUpUIScene(x, y, button) {
             
         } else if (pointInsideRectArray(x, y, UI.buttonSave)) {
             state = 'Save'
+            fileName = ''
         }
         
         if (pointInsideRectArray(x, y, UI.buttonPointer)) {
@@ -34,16 +46,27 @@ function mouseUpUIScene(x, y, button) {
             stateEdit = 'CameraMove'
         } else if (pointInsideRectArray(x, y, UI.buttonRotate)) {
             stateEdit = 'CameraRotate'
+        } else if (pointInsideRectArray(x, y, UI.buttonReset)) {
+            matrixViewRotate = matrix4Identity()
+            matrixViewTranslate = matrix4Identity()
+            matrixView = matrix4Mul(matrixViewTranslate, matrixViewRotate)
         }
     } else if (state === 'Save') {
-        state = ''
-        let a = document.createElement('a')
-        a.setAttribute('id', 'TempSave')
-        a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('123'))
-        a.setAttribute('download', '123.txt')
-        document.body.appendChild(a)
-        a.click()
-        document.removeChild(a)
+        if (pointInsideRectArray(x, y, UI.buttonSaveConfirm)) {
+            if (fileName.length > 0) {
+                state = ''
+
+                let a = document.createElement('a')
+                a.setAttribute('id', 'TempSave')
+                a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('123'))
+                a.setAttribute('download', `${fileName}.txt`)
+                document.body.appendChild(a)
+                a.click()
+                document.body.removeChild(a)
+            }
+        } else if (pointInsideRectArray(x, y, UI.buttonSaveCancel)) {
+            state = ''
+        }
     }
 }
 

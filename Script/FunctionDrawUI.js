@@ -1,5 +1,5 @@
 function drawSceneUIInit() {
-    contextUI.font = '32px neodgm'
+    contextUI.font = '24px neodgm'
     contextUI.textAlign = 'left'
     contextUI.textBaseline = 'top'
     contextUI.fillStyle = 'White'
@@ -33,6 +33,7 @@ function drawUpperUI() {
         contextUI.drawImage(img.selectFrame, UI.buttonRotate[0], UI.buttonRotate[1])
     }
     
+    contextUI.drawImage(img.button.reset, UI.buttonReset[0], UI.buttonReset[1])
     contextUI.drawImage(img.button.selectSketch, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
     contextUI.drawImage(img.button.selectBody, UI.buttonSelectBody[0], UI.buttonSelectBody[1])
     contextUI.drawImage(img.button.moveObject, UI.buttonMoveObject[0], UI.buttonMoveObject[1])
@@ -43,4 +44,12 @@ function drawUpperUI() {
     contextUI.drawImage(img.button.polygon, UI.buttonPolygon[0], UI.buttonPolygon[1])
     contextUI.drawImage(img.button.free, UI.buttonFree[0], UI.buttonFree[1])
     contextUI.drawImage(img.button.extrude, UI.buttonExtrude[0], UI.buttonExtrude[1])
+
+    if (state === 'Save') {
+        contextUI.fillText(`Save : ${fileName}`, UI.text[0], UI.text[1])
+        contextUI.strokeRect(UI.buttonSaveCancel[0], UI.buttonSaveCancel[1], UI.buttonSaveCancel[2], UI.buttonSaveCancel[3])
+        contextUI.strokeRect(UI.buttonSaveConfirm[0], UI.buttonSaveConfirm[1], UI.buttonSaveConfirm[2], UI.buttonSaveConfirm[3])
+        contextUI.fillText(`Cancel`, UI.textCancel[0], UI.textCancel[1])
+        contextUI.fillText(`Save`, UI.textSave[0], UI.textSave[1])
+    }
 }

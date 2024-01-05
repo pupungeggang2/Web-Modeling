@@ -5,6 +5,8 @@ let img = {
         pointer : new Image(),
         move : new Image(),
         rotate : new Image(),
+        reset : new Image(),
+
         selectSketch :  new Image(),
         selectBody : new Image(),
         moveObject : new Image(),
@@ -26,6 +28,8 @@ function imageLoad() {
     img.button.pointer.src = 'Image/ButtonPointer.png'
     img.button.move.src = 'Image/ButtonMove.png'
     img.button.rotate.src = 'Image/ButtonRotate.png'
+    img.button.reset.src = 'Image/ButtonReset.png'
+
     img.button.selectSketch.src = 'Image/ButtonSelectSketch.png'
     img.button.selectBody.src = 'Image/ButtonSelectBody.png'
     img.button.moveObject.src = 'Image/ButtonMoveObject.png'

@@ -36,5 +36,9 @@ let matrixViewTranslateInverse
 let matrixView
 let lightReverse = [0, 0, 1]
 
-let sketch = []
-let body = []
+let modelFace = []
+let modelFaceNormal = []
+let modelSketch = []
+let modelBody = []
+
+let fileName = ''
