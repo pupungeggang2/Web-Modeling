@@ -7,6 +7,22 @@ function vector3Sub(vec1, vec2) {
     return [vec1[0] - vec2[0], vec1[1] - vec2[1], vec1[2] - vec2[2]]
 }
 
+function vector3Norm(vec) {
+    return Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2])
+}
+
+function vector3Dot(vec1, vec2) {
+    return vec1[0] * vec2[0] + vec1[1] * vec2[1] + vec1[2] * vec2[2]
+}
+
+function vector3Cross(vec1, vec2) {
+    return [vec1[1] * vec2[2] - vec1[2] * vec2[1], vec1[2] * vec2[0] - vec1[0] * vec2[2], vec1[0] * vec2[1] - vec1[1] * vec2[0]]
+}
+
+function vector3Angle(vec1, vec2) {
+    return Math.acos(vector3Dot(vec1, vec2) / (vector3Norm(vec1) * vector3Norm(vec2)))
+}
+
 function matrix4Identity() {
     return [
         1, 0, 0, 0,
@@ -103,4 +119,14 @@ function matrix4Scale(sx, sy, sz) {
 
 function applyTransform(mat, vec) {
     return matrix4Vector4Mult(mat, [vec[0], vec[1], vec[2], 1]).slice(0, 3)
+}
+
+function applyTransformArray(mat, vecArray) {
+    let result = []
+
+    for (let i = 0; i < vecArray.length; i += 3) {
+        result = result.concat(matrix4Vector4Mult(mat, [vecArray[i], vecArray[i + 1], vecArray[i + 2], 1]).slice(0, 3))
+    }
+    
+    return result
 }

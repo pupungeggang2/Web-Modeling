@@ -33,6 +33,7 @@ function main() {
     matrixViewRotateInverse = matrix4Identity()
     matrixViewTranslate = matrix4Identity()
     matrixViewTranslateInverse = matrix4Identity()
+    matrixView = matrix4Identity()
     matrixCamera = [
         1, 0, 0, 0,
         0, 1, 0, 0,
@@ -112,7 +113,7 @@ function mouseUpUI(event) {
 function mouseDownG(event) {
     let canvasGRect = canvasG.getBoundingClientRect()
     let x = event.clientX - canvasGRect.left
-    let y = event.clientY - canvcanvasGRectasG.top
+    let y = event.clientY - canvasGRect.top
     let button = event.button
 
     mouseDownGScene(x, y, button)

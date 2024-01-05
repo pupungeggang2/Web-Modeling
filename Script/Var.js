@@ -14,6 +14,7 @@ let programFramePrevious
 let delta
 
 let mousePressed = false
+let mousePositionPrevious = [0, 0]
 
 // Variables related to WebGL
 let shaderProgram
@@ -32,6 +33,8 @@ let matrixViewRotate
 let matrixViewTranslate
 let matrixViewRotateInverse
 let matrixViewTranslateInverse
+let matrixView
+let lightReverse = [0, 0, 1]
 
 let sketch = []
 let body = []
