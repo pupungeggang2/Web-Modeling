@@ -123,14 +123,16 @@ function matrix4Scale(sx, sy, sz) {
 }
 
 function applyTransform(mat, vec) {
-    return matrix4Vector4Mult(mat, [vec[0], vec[1], vec[2], 1]).slice(0, 3)
+    let coordHomo = matrix4Vector4Mult(mat, [vec[0], vec[1], vec[2], 1])
+    return [coordHomo[0] / coordHomo[3], coordHomo[1] / coordHomo[3], coordHomo[2] / coordHomo[3]]
 }
 
 function applyTransformArray(mat, vecArray) {
     let result = []
 
     for (let i = 0; i < vecArray.length; i += 3) {
-        result = result.concat(matrix4Vector4Mult(mat, [vecArray[i], vecArray[i + 1], vecArray[i + 2], 1]).slice(0, 3))
+        let coordHomo = matrix4Vector4Mult(mat, [vecArray[i], vecArray[i + 1], vecArray[i + 2], 1])
+        result = result.concat([coordHomo[0] / coordHomo[3], coordHomo[1] / coordHomo[3], coordHomo[2] / coordHomo[3]])
     }
     
     return result
