@@ -39,6 +39,5 @@ let lightReverse = [0, 0, 1]
 let modelFace = []
 let modelFaceNormal = []
 let modelSketch = []
-let modelBody = []
 
 let fileName = ''

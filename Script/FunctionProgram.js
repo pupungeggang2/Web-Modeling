@@ -4,6 +4,10 @@ function newFile() {
     body = []
 }
 
+function addSketch(vertice) {
+    
+}
+
 function addFace(vertice) {
     let face = []
 
@@ -15,8 +19,6 @@ function addFace(vertice) {
     let normalInverse = [-normal[0], -normal[1], -normal[2]]
 
     modelFaceNormal.push(normal)
-    modelFaceNormal.push(normalInverse)
-    modelFace.push(face)
     modelFace.push(face)
 }
 

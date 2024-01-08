@@ -48,6 +48,10 @@ function drawFace(vetrice, normal) {
     
 }
 
+function drawSketch() {
+    
+}
+
 function drawModel() {
     for (let i = 0; i < modelFace.length; i++) {
         for (let j = 1; j + 1 < modelFace[i].length; j++) {
