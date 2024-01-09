@@ -3,12 +3,18 @@ function loopScene() {
 }
 
 function displayScene() {
+    // Init
     drawSceneUIInit()
     drawSceneInit()
+    
+    // UI
     drawUpperUI()
+
+    // Main part
     drawAxis()
     drawFloor()
     drawModel()
+    drawSketch()
 }
 
 function keyDownUIScene(key) {
@@ -50,6 +56,12 @@ function mouseUpUIScene(x, y, button) {
             matrixViewRotate = matrix4Identity()
             matrixViewTranslate = matrix4Identity()
             matrixView = matrix4Mul(matrixViewTranslate, matrixViewRotate)
+        } else if (pointInsideRectArray(x, y, UI.buttonRectangle)) {
+            stateEdit = 'SketchRectangle'
+        } else if (pointInsideRectArray(x, y, UI.buttonPolygon)) {
+            stateEdit = 'SketchPolygon'
+        } else if (pointInsideRectArray(x, y, UI.buttonFree)) {
+            stateEdit = 'SketchFree'
         }
     } else if (state === 'Save') {
         if (pointInsideRectArray(x, y, UI.buttonSaveConfirm)) {

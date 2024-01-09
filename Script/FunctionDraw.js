@@ -49,7 +49,25 @@ function drawFace(vetrice, normal) {
 }
 
 function drawSketch() {
-    
+    gl.disable(gl.DEPTH_TEST)
+    gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
+
+    for (let i = 0; i < modelSketch.length; i++) {
+        for (let j = 0; j < modelSketch[i].length; j++) {
+            let vertice = []
+            let tempVertice1 = [modelSketch[i][j][0], modelSketch[i][j][1], modelSketch[i][j][2]]
+            let index2 = (j + 1) % modelSketch[i].length
+            let tempVertice2 = [modelSketch[i][index2][0], modelSketch[i][index2][1], modelSketch[i][index2][2]]
+
+            vertice = vertice.concat(applyTransform(matrixView, tempVertice1))
+            vertice = vertice.concat(applyTransform(matrixView, tempVertice2))
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.LINES, 0, 2)
+        }
+    }
+    gl.enable(gl.DEPTH_TEST)
 }
 
 function drawModel() {

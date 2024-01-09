@@ -5,7 +5,11 @@ function newFile() {
 }
 
 function addSketch(vertice) {
-    
+    modelSketch.push(vertice)
+}
+
+function extrudeSketch(sketch, length) {
+
 }
 
 function addFace(vertice) {
@@ -16,7 +20,6 @@ function addFace(vertice) {
     }
 
     let normal = vector3Cross([vertice[1][0] - vertice[0][0], vertice[1][1] - vertice[0][1], vertice[1][2] - vertice[0][2]], [vertice[2][0] - vertice[0][0], vertice[2][1] - vertice[0][1], vertice[2][2] - vertice[0][2]])
-    let normalInverse = [-normal[0], -normal[1], -normal[2]]
 
     modelFaceNormal.push(normal)
     modelFace.push(face)
