@@ -10,8 +10,6 @@ function drawSceneUIInit() {
 }
 
 function drawUpperUI() {
-    contextUI.fillText(textUpper, UI.text[0], UI.text[1])
-
     contextUI.drawImage(img.button.newFile, UI.buttonNew[0], UI.buttonNew[1])
     contextUI.drawImage(img.button.save, UI.buttonSave[0], UI.buttonSave[1])
 
@@ -41,15 +39,49 @@ function drawUpperUI() {
     contextUI.drawImage(img.button.removeObject, UI.buttonRemoveObject[0], UI.buttonRemoveObject[1])
 
     contextUI.drawImage(img.button.rectangle, UI.buttonRectangle[0], UI.buttonRectangle[1])
+
+    if (state === '' && (stateEdit === 'PlaneRectangle' || stateEdit === 'PlanePolygon' || stateEdit === 'PlaneFree')) {
+        contextUI.fillText('Select Plane', UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && (stateEdit === 'SketchRectangle')) {
+        contextUI.fillText(`Drag Rectangle`, UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && (stateEdit === 'SketchPolygon')) {
+        contextUI.fillText(`Enter line and number`, UI.text[0], UI.text[1])
+        contextUI.fillText(`123`, UI.textNum[0], UI.textNum[1])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
+        contextUI.fillText(`OK`, UI.textConfirm[0], UI.textConfirm[1])
+    }
+
+    if (state === '' && (stateEdit === 'SketchFree')) {
+        contextUI.fillText(`Draw Free shape`, UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && (stateEdit === 'PlaneRectangle' || stateEdit === 'SketchRectangle')) {
+        contextUI.drawImage(img.selectFrame, UI.buttonRectangle[0], UI.buttonRectangle[1])
+    }
+
     contextUI.drawImage(img.button.polygon, UI.buttonPolygon[0], UI.buttonPolygon[1])
+
+    if (state === '' && (stateEdit === 'PlanePolygon' || stateEdit === 'SketchPolygon')) {
+        contextUI.drawImage(img.selectFrame, UI.buttonPolygon[0], UI.buttonPolygon[1])
+    }
+
     contextUI.drawImage(img.button.free, UI.buttonFree[0], UI.buttonFree[1])
+
+    if (state === '' && (stateEdit === 'PlaneFree' || stateEdit === 'SketchFree')) {
+        contextUI.drawImage(img.selectFrame, UI.buttonFree[0], UI.buttonFree[1])
+    }
+
     contextUI.drawImage(img.button.extrude, UI.buttonExtrude[0], UI.buttonExtrude[1])
 
     if (state === 'Save') {
         contextUI.fillText(`Save : ${fileName}`, UI.text[0], UI.text[1])
-        contextUI.strokeRect(UI.buttonSaveCancel[0], UI.buttonSaveCancel[1], UI.buttonSaveCancel[2], UI.buttonSaveCancel[3])
-        contextUI.strokeRect(UI.buttonSaveConfirm[0], UI.buttonSaveConfirm[1], UI.buttonSaveConfirm[2], UI.buttonSaveConfirm[3])
+        contextUI.strokeRect(UI.buttonCancel[0], UI.buttonCancel[1], UI.buttonCancel[2], UI.buttonCancel[3])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
         contextUI.fillText(`Cancel`, UI.textCancel[0], UI.textCancel[1])
-        contextUI.fillText(`Save`, UI.textSave[0], UI.textSave[1])
+        contextUI.fillText(`Save`, UI.textConfirm[0], UI.textConfirm[1])
     }
 }

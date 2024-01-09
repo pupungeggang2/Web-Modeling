@@ -57,11 +57,11 @@ function mouseUpUIScene(x, y, button) {
             matrixViewTranslate = matrix4Identity()
             matrixView = matrix4Mul(matrixViewTranslate, matrixViewRotate)
         } else if (pointInsideRectArray(x, y, UI.buttonRectangle)) {
-            stateEdit = 'SketchRectangle'
+            stateEdit = 'PlaneRectangle'
         } else if (pointInsideRectArray(x, y, UI.buttonPolygon)) {
-            stateEdit = 'SketchPolygon'
+            stateEdit = 'PlanePolygon'
         } else if (pointInsideRectArray(x, y, UI.buttonFree)) {
-            stateEdit = 'SketchFree'
+            stateEdit = 'PlaneFree'
         }
     } else if (state === 'Save') {
         if (pointInsideRectArray(x, y, UI.buttonSaveConfirm)) {

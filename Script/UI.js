@@ -1,5 +1,6 @@
 const UI = {
     text : [4, 8],
+    textNum : [288, 8],
     buttonNew : [0, 40, 40, 40],
     buttonSave : [40, 40, 40, 40],
     buttonPointer : [80, 40, 40, 40],
@@ -17,8 +18,8 @@ const UI = {
     buttonFree : [80, 80, 40, 40],
     buttonExtrude : [120, 80, 40, 40],
 
-    buttonSaveCancel : [320, 0, 80, 40],
-    buttonSaveConfirm : [400, 0, 80, 40],
+    buttonCancel : [320, 0, 80, 40],
+    buttonConfirm : [400, 0, 80, 40],
     textCancel : [328, 8],
-    textSave : [408, 8],
+    textConfirm : [408, 8],
 }
