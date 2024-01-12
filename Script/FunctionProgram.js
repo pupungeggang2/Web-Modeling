@@ -1,13 +1,33 @@
+// New file
 function newFile() {
     state = ''
-    sketch = []
-    body = []
+    modelSketch = []
+    modelSketchConnection = []
+    modelFace = []
+    planeG = [
+        {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+        {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+    ]
+    planeGconnection = [[0, 1]]
 }
 
+// Related to sketch
 function addSketch(vertice) {
-    modelSketch.push(vertice)
+    let normal = vector3Normalize(vector3Cross([vertice[3] - vertice[0], vertice[4] - vertice[1], vertice[5] - vertice[2]], [vertice[6] - vertice[0], vertice[7] - vertice[1], vertice[8] - vertice[2]]))
+    let tempSketch = {
+        'Vertice' : vertice,
+        'Normal' : normal
+    }
+
+    modelSketch.push(tempSketch)
 }
 
+function addPolygonSketch(triangle) {
+
+}
+
+
+// Related fo body
 function extrudeSketch(sketch, length) {
 
 }
@@ -25,6 +45,49 @@ function addFace(vertice) {
     modelFace.push(face)
 }
 
-function modelingToObj() {
+// Selection
+function linePlaneIntersection(positionG, planeVertice, planeNormal) {
+    // Applying transformation
+    let transformedPlane = applyTransformArray(matrixView, planeVertice)
+    let transformedNormal = applyTransform(matrixViewRotate, planeNormal)
+
+    // Finding plane property
+    let planeVerticeProjection = [transformedPlane[0], transformedPlane[1], 0, transformedPlane[3], transformedPlane[4], 0, transformedPlane[6], transformedPlane[7], 0]
+    let a = transformedNormal[0]
+    let b = transformedNormal[1]
+    let c = transformedNormal[2]
+    let d = - a * transformedPlane[0] - b * transformedPlane[1] - c * transformedPlane[2]
+
+    // Intersection point
+    let intersectionPoint = [positionG[0], positionG[1], (- a * positionG[0] - b * positionG[1] - d) / c]
+    let intersect = pointInsideTriangle2D(positionG[0], positionG[1], [planeVerticeProjection[0], planeVerticeProjection[1], planeVerticeProjection[3], planeVerticeProjection[4], planeVerticeProjection[6], planeVerticeProjection[7]])
+    let distance = Math.abs(intersectionPoint[2])
+
+    intersectionPoint = applyTransform(matrixViewInv, intersectionPoint)
     
+    return [intersect, intersectionPoint, distance]
 }
+
+function selectPlane(positionG) {
+    let minimumDistance = 99999999
+    let selected = -1
+
+    for (let i = 0; i < planeGConnection.length; i++) {
+        for (let j = 0; j < planeGConnection[i].length; j++) {
+            let index = planeGConnection[i][j]
+            let intersectionData = linePlaneIntersection(positionG, planeG[index]['Vertice'], planeG[index]['Normal'])
+
+            if (intersectionData[0] === true) {
+                if (intersectionData[2] < minimumDistance) {
+                    minimumDistance = intersectionData[2]
+                    selected = i
+                    //tempDot = JSON.parse(JSON.stringify(intersectionData[1]))
+                    break
+                }
+            }
+        }
+    }
+
+    return selected
+}
+

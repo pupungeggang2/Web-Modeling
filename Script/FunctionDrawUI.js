@@ -7,6 +7,7 @@ function drawSceneUIInit() {
     contextUI.clearRect(0, 0, 640, 120)
     contextUI.fillRect(0, 0, 640, 120)
     contextUI.fillStyle = 'Black'
+    contextUI.lineWidth = 2
 }
 
 function drawUpperUI() {
@@ -16,18 +17,21 @@ function drawUpperUI() {
     contextUI.drawImage(img.button.pointer, UI.buttonPointer[0], UI.buttonPointer[1])
 
     if (state === '' && stateEdit === '') {
+        contextUI.fillText('Simple Modeling Program', UI.text[0], UI.text[1])
         contextUI.drawImage(img.selectFrame, UI.buttonPointer[0], UI.buttonPointer[1])
     }
 
     contextUI.drawImage(img.button.move, UI.buttonMove[0], UI.buttonMove[1])
 
     if (state === '' && stateEdit === 'CameraMove') {
+        contextUI.fillText('Mode : Camera Move', UI.text[0], UI.text[1])
         contextUI.drawImage(img.selectFrame, UI.buttonMove[0], UI.buttonMove[1])
     }
 
     contextUI.drawImage(img.button.rotate, UI.buttonRotate[0], UI.buttonRotate[1])
 
     if (state === '' && stateEdit === 'CameraRotate') {
+        contextUI.fillText('Mode : Camera Rotate', UI.text[0], UI.text[1])
         contextUI.drawImage(img.selectFrame, UI.buttonRotate[0], UI.buttonRotate[1])
     }
     
@@ -46,6 +50,8 @@ function drawUpperUI() {
 
     if (state === '' && (stateEdit === 'SketchRectangle')) {
         contextUI.fillText(`Drag Rectangle`, UI.text[0], UI.text[1])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
+        contextUI.fillText(`OK`, UI.textConfirm[0], UI.textConfirm[1])
     }
 
     if (state === '' && (stateEdit === 'SketchPolygon')) {
@@ -57,6 +63,8 @@ function drawUpperUI() {
 
     if (state === '' && (stateEdit === 'SketchFree')) {
         contextUI.fillText(`Draw Free shape`, UI.text[0], UI.text[1])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
+        contextUI.fillText(`OK`, UI.textConfirm[0], UI.textConfirm[1])
     }
 
     if (state === '' && (stateEdit === 'PlaneRectangle' || stateEdit === 'SketchRectangle')) {

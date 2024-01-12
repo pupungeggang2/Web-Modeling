@@ -137,3 +137,17 @@ function applyTransformArray(mat, vecArray) {
     
     return result
 }
+
+// Vertice : [x1, y1, x2, y2, x3, y3]
+function areaTriangle2D(vertice) {
+    return 0.5 * Math.abs(vertice[0] * vertice[3] + vertice[2] * vertice[5] + vertice[4] * vertice[1] - vertice[2] * vertice[1] - vertice[4] * vertice[3] - vertice[0] * vertice[5])
+}
+
+function pointInsideTriangle2D(x, y, triangle) {
+    let area = areaTriangle2D(triangle)
+    let area1 = areaTriangle2D([x, y, triangle[0], triangle[1], triangle[2], triangle[3]])
+    let area2 = areaTriangle2D([x, y, triangle[2], triangle[3], triangle[4], triangle[5]])
+    let area3 = areaTriangle2D([x, y, triangle[4], triangle[5], triangle[0], triangle[1]])
+
+    return !(area1 + area2 + area3 > area)
+}

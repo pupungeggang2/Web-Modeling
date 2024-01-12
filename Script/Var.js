@@ -31,13 +31,38 @@ let modeling
 let matrixCamera
 let matrixViewRotate
 let matrixViewTranslate
-let matrixViewRotateInverse
-let matrixViewTranslateInverse
+let matrixViewRotateInv
+let matrixViewTranslateInv
 let matrixView
+let matrixViewInv
 let lightReverse = [0, 0, 1]
 
 let modelFace = []
 let modelFaceNormal = []
 let modelSketch = []
+let modelSketchConnection = []
+
+let planeG = [
+    {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+    {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+]
+let planeGConnection = [[0, 1]]
+
+let selectedPlane = -1
+let tempDot = [0, 0, 0]
+
+let sketchVar = {
+    available : false,
+    positionGStart : [0, 0],
+    rect1 : [0, 0, 0],
+    rect2 : [0, 0, 0],
+    rect3 : [0, 0, 0],
+    rect4 : [0, 0, 0],
+    polygonCenter : [],
+    polygonVertice : [],
+    polygonNum : -1,
+    freePoints : [],
+    tempDraw : [],
+}
 
 let fileName = ''

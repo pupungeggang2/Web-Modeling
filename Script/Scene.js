@@ -12,9 +12,15 @@ function displayScene() {
 
     // Main part
     drawAxis()
-    drawFloor()
-    drawModel()
+    drawPlane()
     drawSketch()
+    //drawDot()
+
+    if (sketchVar.available === true) {
+        if (stateEdit === 'SketchRectangle') {
+            drawTempRect()
+        }
+    }
 }
 
 function keyDownUIScene(key) {
@@ -33,7 +39,7 @@ function keyDownUIScene(key) {
 
 function keyUpUIScene(key) {
     if (state === '') {
-
+        
     }
 }
 
@@ -48,10 +54,13 @@ function mouseUpUIScene(x, y, button) {
         
         if (pointInsideRectArray(x, y, UI.buttonPointer)) {
             stateEdit = ''
+            selectedPlane = -1
         } else if (pointInsideRectArray(x, y, UI.buttonMove)) {
             stateEdit = 'CameraMove'
+            selectedPlane = -1
         } else if (pointInsideRectArray(x, y, UI.buttonRotate)) {
             stateEdit = 'CameraRotate'
+            selectedPlane = -1
         } else if (pointInsideRectArray(x, y, UI.buttonReset)) {
             matrixViewRotate = matrix4Identity()
             matrixViewTranslate = matrix4Identity()
@@ -83,13 +92,17 @@ function mouseUpUIScene(x, y, button) {
 }
 
 function mouseDownGScene(x, y, button) {
+    let positionG = [(x - 240) / 240, (240 - y) / 240]
     mousePressed = true
-    if (state === '') {
-        
+
+    if (button === 0) {
+        if (state === '') {
+
+        }
     }
 }
 
-function mouseMoveGScene(x, y, button) {
+function mouseMoveGScene(x, y) {
     let positionG = [(x - 240) / 240, (240 - y) / 240]
 
     if (state === '') {
@@ -97,17 +110,21 @@ function mouseMoveGScene(x, y, button) {
             if (mousePressed === true) {
                 let diff = [positionG[0] - mousePositionPrevious[0], positionG[1] - mousePositionPrevious[1]]
                 let matrixRotateY = matrix4Rotate(1, diff[0] * 40)
+                let matrixRotateYInv = matrix4Rotate(1, -diff[0] * 40)
                 let matrixRotateX = matrix4Rotate(0, -diff[1] * 40)
-                let matrixRotateTemp = matrix4Mul(matrixRotateY, matrixRotateX)
-                matrixViewRotate = matrix4Mul(matrixRotateTemp, matrixViewRotate)
+                let matrixRotateXInv = matrix4Rotate(0, diff[1] * 40)
+                matrixViewRotate = matrix4Mul(matrix4Mul(matrixRotateY, matrixRotateX), matrixViewRotate)
+                matrixViewRotateInv = matrix4Mul(matrixViewRotateInv, matrix4Mul(matrixRotateXInv, matrixRotateYInv))
                 matrixView = matrix4Mul(matrixViewTranslate, matrixViewRotate)
+                matrixViewInv = matrix4Mul(matrixViewRotateInv, matrixViewTranslateInv)
             }
         } else if (stateEdit === 'CameraMove') {
             if (mousePressed === true) {
                 let diff = [positionG[0] - mousePositionPrevious[0], positionG[1] - mousePositionPrevious[1]]
-                let matrixTranslateTemp = matrix4Translate(diff[0], diff[1], 0)
-                matrixViewTranslate = matrix4Mul(matrixTranslateTemp, matrixViewTranslate)
+                matrixViewTranslate = matrix4Mul(matrix4Translate(diff[0], diff[1], 0), matrixViewTranslate)
+                matrixViewTranslateInv = matrix4Mul(matrixViewTranslateInv, matrix4Translate(-diff[0], -diff[1], 0))
                 matrixView = matrix4Mul(matrixViewTranslate, matrixViewRotate)
+                matrixViewInv = matrix4Mul(matrixViewRotateInv, matrixViewTranslateInv)
             }
         }
     }
@@ -116,8 +133,12 @@ function mouseMoveGScene(x, y, button) {
 }
 
 function mouseUpGScene(x, y, button) {
+    let positionG = [(x - 240) / 240, (240 - y) / 240]
     mousePressed = false
-    if (state === '') {
-        
+
+    if (button === 0) {
+        if (state === '') {
+            
+        }
     }
 }

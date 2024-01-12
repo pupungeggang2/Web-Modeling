@@ -30,10 +30,11 @@ function main() {
     glInit()
 
     matrixViewRotate = matrix4Identity()
-    matrixViewRotateInverse = matrix4Identity()
+    matrixViewRotateInv = matrix4Identity()
     matrixViewTranslate = matrix4Identity()
-    matrixViewTranslateInverse = matrix4Identity()
+    matrixViewTranslateInv = matrix4Identity()
     matrixView = matrix4Identity()
+    matrixViewInv = matrix4Identity()
     matrixCamera = [
         1, 0, 0, 0,
         0, 1, 0, 0,
@@ -53,6 +54,7 @@ function glInit() {
 
         void main() {
             gl_Position = u_matrix * a_position;
+            gl_PointSize = 10.0;
         }
     `
     let sourceShaderFragment = `
