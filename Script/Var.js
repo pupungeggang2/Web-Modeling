@@ -37,16 +37,16 @@ let matrixView
 let matrixViewInv
 let lightReverse = [0, 0, 1]
 
-let modelFace = []
-let modelFaceNormal = []
-let modelSketch = []
-let modelSketchConnection = []
-
+let planeSketch = []
+let planeSketchConnection = []
+let planeSketchID = 0
 let planeG = [
     {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
     {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
 ]
 let planeGConnection = [[0, 1]]
+let planeGID = 2
+let planeGBody = []
 
 let selectedPlane = -1
 let tempDot = [0, 0, 0]
@@ -54,15 +54,12 @@ let tempDot = [0, 0, 0]
 let sketchVar = {
     available : false,
     positionGStart : [0, 0],
-    rect1 : [0, 0, 0],
-    rect2 : [0, 0, 0],
-    rect3 : [0, 0, 0],
-    rect4 : [0, 0, 0],
     polygonCenter : [],
     polygonVertice : [],
+    polygonMode : 0,
     polygonNum : -1,
-    freePoints : [],
-    tempDraw : [],
+    tempVertice : [],
+    tempSketch : [],
 }
 
 let fileName = ''

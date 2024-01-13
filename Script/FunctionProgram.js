@@ -1,14 +1,16 @@
 // New file
 function newFile() {
     state = ''
-    modelSketch = []
-    modelSketchConnection = []
-    modelFace = []
+    planeSketch = []
+    planeSketchConnection = []
+    planeSketchID = 0
     planeG = [
         {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
         {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
     ]
     planeGconnection = [[0, 1]]
+    planeGBody = []
+    planeGID = 2
 }
 
 // Related to sketch
@@ -19,7 +21,16 @@ function addSketch(vertice) {
         'Normal' : normal
     }
 
-    modelSketch.push(tempSketch)
+    planeSketch.push(tempSketch)
+}
+
+function addSketchNormal(vertice, normal) {
+    let tempSketch = {
+        'Vertice' : vertice,
+        'Normal' : normal
+    }
+
+    planeSketch.push(tempSketch)
 }
 
 function addPolygonSketch(triangle) {
@@ -64,7 +75,7 @@ function linePlaneIntersection(positionG, planeVertice, planeNormal) {
     let distance = Math.abs(intersectionPoint[2])
 
     intersectionPoint = applyTransform(matrixViewInv, intersectionPoint)
-    
+
     return [intersect, intersectionPoint, distance]
 }
 

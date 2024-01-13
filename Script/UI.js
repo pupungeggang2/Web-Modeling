@@ -1,6 +1,6 @@
 const UI = {
     text : [4, 8],
-    textNum : [288, 8],
+    textNum : [248, 8],
     buttonNew : [0, 40, 40, 40],
     buttonSave : [40, 40, 40, 40],
     buttonPointer : [80, 40, 40, 40],
@@ -13,13 +13,19 @@ const UI = {
     buttonRotateObject : [360, 40, 40, 40],
     buttonRemoveObject : [400, 40, 40, 40],
 
-    buttonRectangle : [0, 80, 40, 40],
-    buttonPolygon : [40, 80, 40, 40],
-    buttonFree : [80, 80, 40, 40],
-    buttonExtrude : [120, 80, 40, 40],
+    buttonDown : [200, 0, 40, 40],
+    textDown : [212, 8],
+    buttonUp : [280, 0, 40, 40],
+    textUp : [292, 8],
 
+    buttonPolygon : [0, 80, 40, 40],
+    buttonFree : [40, 80, 40, 40],
+    buttonExtrude : [80, 80, 40, 40],
+
+    buttonErase : [240, 0, 80, 40],
     buttonCancel : [320, 0, 80, 40],
     buttonConfirm : [400, 0, 80, 40],
+    textErase : [248, 8],
     textCancel : [328, 8],
     textConfirm : [408, 8],
 }

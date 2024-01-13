@@ -54,7 +54,7 @@ function glInit() {
 
         void main() {
             gl_Position = u_matrix * a_position;
-            gl_PointSize = 10.0;
+            gl_PointSize = 5.0;
         }
     `
     let sourceShaderFragment = `

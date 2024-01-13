@@ -8,48 +8,34 @@ function drawSceneInit() {
 
 function drawAxis() {
     let tempAxis
-    tempAxis = [0.1, 0, 0]
-    tempAxis = applyTransform(matrixViewRotate, tempAxis)
-    tempAxis = applyTransform(matrix4Translate(-0.9, -0.9, -0.9), tempAxis)
+    tempAxis = [0, 0, 0, 0.1, 0, 0]
+    tempAxis = applyTransformArray(matrix4Mul(matrix4Translate(-0.9, -0.9, -0.9), matrixViewRotate), tempAxis)
     gl.uniform4f(currentColor, 1.0, 0.0, 0.0, 1.0)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-0.9, -0.9, -0.9, tempAxis[0], tempAxis[1], tempAxis[2]]), gl.STATIC_DRAW)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tempAxis), gl.STATIC_DRAW)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
     gl.drawArrays(gl.LINES, 0, 2)
 
-    tempAxis = [0, 0.1, 0]
-    tempAxis = applyTransform(matrixViewRotate, tempAxis)
-    tempAxis = applyTransform(matrix4Translate(-0.9, -0.9, -0.9), tempAxis)
+    tempAxis = [0, 0, 0, 0, 0.1, 0]
+    tempAxis = applyTransformArray(matrix4Mul(matrix4Translate(-0.9, -0.9, -0.9), matrixViewRotate), tempAxis)
     gl.uniform4f(currentColor, 0.0, 1.0, 0.0, 1.0)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-0.9, -0.9, -0.9, tempAxis[0], tempAxis[1], tempAxis[2]]), gl.STATIC_DRAW)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tempAxis), gl.STATIC_DRAW)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
     gl.drawArrays(gl.LINES, 0, 2)
 
-    tempAxis = [0, 0, 0.1]
-    tempAxis = applyTransform(matrixViewRotate, tempAxis)
-    tempAxis = applyTransform(matrix4Translate(-0.9, -0.9, -0.9), tempAxis)
+    tempAxis = [0, 0, 0, 0, 0, 0.1]
+    tempAxis = applyTransformArray(matrix4Mul(matrix4Translate(-0.9, -0.9, -0.9), matrixViewRotate), tempAxis)
     gl.uniform4f(currentColor, 0.0, 0.0, 1.0, 1.0)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-0.9, -0.9, -0.9, tempAxis[0], tempAxis[1], tempAxis[2]]), gl.STATIC_DRAW)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tempAxis), gl.STATIC_DRAW)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
     gl.drawArrays(gl.LINES, 0, 2)
-}
-
-function drawFloor() {
-    let floor = [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0, -0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0]
-    floor = applyTransformArray(matrixView, floor)
-    let angle = vector3Angle(lightReverse, vector3Cross([floor[3] - floor[0], floor[4] - floor[1], floor[5] - floor[2]], [floor[6] - floor[0], floor[7] - floor[1], floor[8] - floor[2]]))
-    let colorFactor = Math.max(Math.cos(angle), 0.1)
-    gl.uniform4f(currentColor, 1.0 * colorFactor, 1.0 * colorFactor, 1.0 * colorFactor, 1.0)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(floor), gl.STATIC_DRAW)
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 3, 4, 5]), gl.STATIC_DRAW)
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
 }
 
 function drawSketch() {
     gl.disable(gl.DEPTH_TEST)
     gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
 
-    for (let i = 0; i < modelSketch.length; i++) {
-        let vertice = [modelSketch[i]['Vertice'][0], modelSketch[i]['Vertice'][1], modelSketch[i]['Vertice'][2], modelSketch[i]['Vertice'][3], modelSketch[i]['Vertice'][4], modelSketch[i]['Vertice'][5], modelSketch[i]['Vertice'][3], modelSketch[i]['Vertice'][4], modelSketch[i]['Vertice'][5], modelSketch[i]['Vertice'][6], modelSketch[i]['Vertice'][7], modelSketch[i]['Vertice'][8], modelSketch[i]['Vertice'][6], modelSketch[i]['Vertice'][7], modelSketch[i]['Vertice'][8], modelSketch[i]['Vertice'][0], modelSketch[i]['Vertice'][1], modelSketch[i]['Vertice'][2]]
+    for (let i = 0; i < planeSketch.length; i++) {
+        let vertice = [planeSketch[i]['Vertice'][0], planeSketch[i]['Vertice'][1], planeSketch[i]['Vertice'][2], planeSketch[i]['Vertice'][3], planeSketch[i]['Vertice'][4], planeSketch[i]['Vertice'][5], planeSketch[i]['Vertice'][3], planeSketch[i]['Vertice'][4], planeSketch[i]['Vertice'][5], planeSketch[i]['Vertice'][6], planeSketch[i]['Vertice'][7], planeSketch[i]['Vertice'][8], planeSketch[i]['Vertice'][6], planeSketch[i]['Vertice'][7], planeSketch[i]['Vertice'][8], planeSketch[i]['Vertice'][0], planeSketch[i]['Vertice'][1], planeSketch[i]['Vertice'][2]]
         vertice = applyTransformArray(matrixView, vertice)
 
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
@@ -92,9 +78,44 @@ function drawDot() {
     gl.enable(gl.DEPTH_TEST)
 }
 
-function drawTempRect() {
+function drawTempSketch() {
     gl.disable(gl.DEPTH_TEST)
     gl.uniform4f(currentColor, 0.0, 0.0, 1.0, 1.0)
+
+    if (stateEdit === 'SketchPolygon') {
+        if (sketchVar.polygonMode === 1) {
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(applyTransform(matrixView, sketchVar.polygonCenter)), gl.STATIC_DRAW)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.POINTS, 0, 1)
+        } else if (sketchVar.polygonMode === 2) {
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(applyTransform(matrixView, sketchVar.polygonCenter)), gl.STATIC_DRAW)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.POINTS, 0, 1)
+            
+            for (let i = 0; i < sketchVar.tempVertice.length; i += 3) {
+                let point1 = applyTransform(matrixView, [sketchVar.tempVertice[i], sketchVar.tempVertice[i + 1], sketchVar.tempVertice[i + 2]])
+                let point2 = applyTransform(matrixView, [sketchVar.tempVertice[(i + 3) % sketchVar.tempVertice.length], sketchVar.tempVertice[(i + 4) % sketchVar.tempVertice.length], sketchVar.tempVertice[(i + 5) % sketchVar.tempVertice.length]])
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(point1.concat(point2)), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 2)
+            }
+        }
+    } else if (stateEdit === 'SketchFree') {
+        for (let i = 0; i < sketchVar.tempVertice.length; i += 3) {
+            for (let i = 0; i < sketchVar.tempVertice.length; i += 3) {
+                let point1 = applyTransform(matrixView, [sketchVar.tempVertice[i], sketchVar.tempVertice[i + 1], sketchVar.tempVertice[i + 2]])
+                let point2 = applyTransform(matrixView, [sketchVar.tempVertice[(i + 3) % sketchVar.tempVertice.length], sketchVar.tempVertice[(i + 4) % sketchVar.tempVertice.length], sketchVar.tempVertice[(i + 5) % sketchVar.tempVertice.length]])
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(point1.concat(point2)), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 2)
+            }
+
+            let point = applyTransform(matrixView, [sketchVar.tempVertice[i], sketchVar.tempVertice[i + 1], sketchVar.tempVertice[i + 2]])
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(point), gl.STATIC_DRAW)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.POINTS, 0, 1)
+        }
+    }
 
     gl.enable(gl.DEPTH_TEST)
 }
