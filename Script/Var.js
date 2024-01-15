@@ -49,6 +49,8 @@ let planeGID = 2
 let planeGBody = []
 
 let selectedPlane = -1
+let selectedSketch = -1
+let selectedBody = -1
 let tempDot = [0, 0, 0]
 
 let sketchVar = {
@@ -61,5 +63,7 @@ let sketchVar = {
     tempVertice : [],
     tempSketch : [],
 }
+
+let extrudeDistance = 0
 
 let fileName = ''

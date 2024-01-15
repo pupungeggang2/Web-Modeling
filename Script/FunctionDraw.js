@@ -34,13 +34,26 @@ function drawSketch() {
     gl.disable(gl.DEPTH_TEST)
     gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
 
-    for (let i = 0; i < planeSketch.length; i++) {
-        let vertice = [planeSketch[i]['Vertice'][0], planeSketch[i]['Vertice'][1], planeSketch[i]['Vertice'][2], planeSketch[i]['Vertice'][3], planeSketch[i]['Vertice'][4], planeSketch[i]['Vertice'][5], planeSketch[i]['Vertice'][3], planeSketch[i]['Vertice'][4], planeSketch[i]['Vertice'][5], planeSketch[i]['Vertice'][6], planeSketch[i]['Vertice'][7], planeSketch[i]['Vertice'][8], planeSketch[i]['Vertice'][6], planeSketch[i]['Vertice'][7], planeSketch[i]['Vertice'][8], planeSketch[i]['Vertice'][0], planeSketch[i]['Vertice'][1], planeSketch[i]['Vertice'][2]]
-        vertice = applyTransformArray(matrixView, vertice)
+    for (let i = 0; i < planeSketchConnection.length; i++) {
+        for (let j = 0; j < planeSketchConnection[i].length; j++) {
+            let index = planeSketchConnection[i][j]
 
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 3, 4, 5]), gl.STATIC_DRAW)
-        gl.drawArrays(gl.LINES, 0, 6)
+            if (i === selectedSketch) {
+                gl.uniform4f(currentColor, 0.0, 1.0, 0.0, 0.5)
+                let vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8]]
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.TRIANGLES, 0, 3)
+                gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
+            }
+
+            let vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8], planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2]]
+            vertice = applyTransformArray(matrixView, vertice)
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 3, 4, 5]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.LINES, 0, 6)
+        }
     }
 
     gl.enable(gl.DEPTH_TEST)

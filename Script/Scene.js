@@ -52,20 +52,26 @@ function mouseUpUIScene(x, y, button) {
             matrixViewInv = matrix4Identity()
             stateEdit = ''
             selectedPlane = -1
+            selectedSketch = -1
         } else if (pointInsideRectArray(x, y, UI.buttonSave)) {
             state = 'Save'
             fileName = ''
+            selectedPlane = -1
+            selectedSketch = -1
         }
         
         if (pointInsideRectArray(x, y, UI.buttonPointer)) {
             stateEdit = ''
             selectedPlane = -1
+            selectedSketch = -1
         } else if (pointInsideRectArray(x, y, UI.buttonMove)) {
             stateEdit = 'CameraMove'
             selectedPlane = -1
+            selectedSketch = -1
         } else if (pointInsideRectArray(x, y, UI.buttonRotate)) {
             stateEdit = 'CameraRotate'
             selectedPlane = -1
+            selectedSketch = -1
         } else if (pointInsideRectArray(x, y, UI.buttonReset)) {
             matrixViewRotate = matrix4Identity()
             matrixViewRotateInv = matrix4Identity()
@@ -75,12 +81,19 @@ function mouseUpUIScene(x, y, button) {
             matrixViewInv = matrix4Identity()
             stateEdit = ''
             selectedPlane = -1
+            selectedSketch = -1
         } else if (pointInsideRectArray(x, y, UI.buttonPolygon)) {
             stateEdit = 'PlanePolygon'
             selectedPlane = -1
+            selectedSketch = -1
         } else if (pointInsideRectArray(x, y, UI.buttonFree)) {
             stateEdit = 'PlaneFree'
             selectedPlane = -1
+            selectedSketch = -1
+        } else if (pointInsideRectArray(x, y, UI.buttonExtrude)) {
+            stateEdit = 'ExtrudeSelect'
+            selectedPlane = -1
+            selectedSketch = -1
         }
 
         if (stateEdit === 'SketchPolygon') {
@@ -271,6 +284,16 @@ function mouseUpGScene(x, y, button) {
                 let index = planeGConnection[selectedPlane][0]
                 let tempVertice = linePlaneIntersection(positionG, planeG[index]['Vertice'], planeG[index]['Normal'])[1]
                 sketchVar.tempVertice = sketchVar.tempVertice.concat(tempVertice)
+            } else if (stateEdit === 'ExtrudeSelect') {
+                let tempSelect = selectSketch(positionG)
+                
+                if (tempSelect != -1) {
+                    stateEdit = 'ExtrudeSketch'
+                    selectedSketch = tempSelect
+                    extrudeDistance = 0
+                }
+            } else if (stateEdit === 'ExtrudeSketch') {
+                
             }
         }
     }

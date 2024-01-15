@@ -102,3 +102,26 @@ function selectPlane(positionG) {
     return selected
 }
 
+function selectSketch(positionG) {
+    let minimumDistance = 99999999
+    let selected = -1
+
+    for (let i = 0; i < planeSketchConnection.length; i++) {
+        for (let j = 0; j < planeSketchConnection[i].length; j++) {
+            let index = planeSketchConnection[i][j]
+            let intersectionData = linePlaneIntersection(positionG, planeSketch[index]['Vertice'], planeSketch[index]['Normal'])
+
+            if (intersectionData[0] === true) {
+                if (intersectionData[2] < minimumDistance) {
+                    minimumDistance = intersectionData[2]
+                    selected = i
+                    //tempDot = JSON.parse(JSON.stringify(intersectionData[1]))
+                    break
+                }
+            }
+        }
+    }
+
+    return selected
+}
+

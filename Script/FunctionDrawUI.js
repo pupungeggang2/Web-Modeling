@@ -36,6 +36,7 @@ function drawUpperUI() {
     }
     
     contextUI.drawImage(img.button.reset, UI.buttonReset[0], UI.buttonReset[1])
+
     contextUI.drawImage(img.button.selectSketch, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
     contextUI.drawImage(img.button.selectBody, UI.buttonSelectBody[0], UI.buttonSelectBody[1])
     contextUI.drawImage(img.button.moveObject, UI.buttonMoveObject[0], UI.buttonMoveObject[1])
@@ -45,11 +46,19 @@ function drawUpperUI() {
     contextUI.drawImage(img.button.polygon, UI.buttonPolygon[0], UI.buttonPolygon[1])
     contextUI.drawImage(img.button.free, UI.buttonFree[0], UI.buttonFree[1])
 
-    if (state === '' && (stateEdit === 'PlanePolygon' || stateEdit === 'PlaneFree')) {
+    if (state === '' && stateEdit === 'PlanePolygon') {
+        contextUI.drawImage(img.selectFrame, UI.buttonPolygon[0], UI.buttonPolygon[1])
         contextUI.fillText('Select Plane', UI.text[0], UI.text[1])
     }
 
-    if (state === '' && (stateEdit === 'SketchPolygon')) {
+    if (state === '' && stateEdit === 'PlaneFree') {
+        contextUI.drawImage(img.selectFrame, UI.buttonFree[0], UI.buttonFree[1])
+        contextUI.fillText('Select Plane', UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && stateEdit === 'SketchPolygon') {
+        contextUI.drawImage(img.selectFrame, UI.buttonPolygon[0], UI.buttonPolygon[1])
+
         contextUI.fillText(`Angle Num:`, UI.text[0], UI.text[1])
         contextUI.fillText(`${sketchVar.polygonNum}`, UI.textNum[0], UI.textNum[1])
         contextUI.strokeRect(UI.buttonDown[0], UI.buttonDown[1], UI.buttonDown[2], UI.buttonDown[3])
@@ -62,7 +71,9 @@ function drawUpperUI() {
         contextUI.fillText(`OK`, UI.textConfirm[0], UI.textConfirm[1])
     }
 
-    if (state === '' && (stateEdit === 'SketchFree')) {
+    if (state === '' && stateEdit === 'SketchFree') {
+        contextUI.drawImage(img.selectFrame, UI.buttonFree[0], UI.buttonFree[1])
+
         contextUI.fillText(`Draw Free shape`, UI.text[0], UI.text[1])
         contextUI.strokeRect(UI.buttonErase[0], UI.buttonErase[1], UI.buttonErase[2], UI.buttonErase[3])
         contextUI.fillText(`Erase`, UI.textErase[0], UI.textErase[1])
@@ -72,15 +83,19 @@ function drawUpperUI() {
         contextUI.fillText(`Done`, UI.textConfirm[0], UI.textConfirm[1])
     }
 
-    if (state === '' && (stateEdit === 'PlanePolygon' || stateEdit === 'SketchPolygon')) {
-        contextUI.drawImage(img.selectFrame, UI.buttonPolygon[0], UI.buttonPolygon[1])
-    }
-
-    if (state === '' && (stateEdit === 'PlaneFree' || stateEdit === 'SketchFree')) {
-        contextUI.drawImage(img.selectFrame, UI.buttonFree[0], UI.buttonFree[1])
-    }
-
     contextUI.drawImage(img.button.extrude, UI.buttonExtrude[0], UI.buttonExtrude[1])
+
+    if (state === '' && stateEdit === 'ExtrudeSelect') {
+        contextUI.drawImage(img.selectFrame, UI.buttonExtrude[0], UI.buttonExtrude[1])
+
+        contextUI.fillText(`Select Sketch.`, UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && stateEdit === 'ExtrudeSketch') {
+        contextUI.drawImage(img.selectFrame, UI.buttonExtrude[0], UI.buttonExtrude[1])
+
+        contextUI.fillText(`Extrude Sketch.`, UI.text[0], UI.text[1])
+    }
 
     if (state === 'Save') {
         contextUI.fillText(`Save : ${fileName}`, UI.text[0], UI.text[1])
