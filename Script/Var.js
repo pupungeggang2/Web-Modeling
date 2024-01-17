@@ -46,7 +46,8 @@ let planeG = [
 ]
 let planeGConnection = [[0, 1]]
 let planeGID = 2
-let planeGBody = []
+let planeGBodyConnection = []
+let planeGBodyID = 0
 
 let selectedPlane = -1
 let selectedSketch = -1

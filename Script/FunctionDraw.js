@@ -7,6 +7,7 @@ function drawSceneInit() {
 }
 
 function drawAxis() {
+    gl.enable(gl.DEPTH_TEST)
     let tempAxis
     tempAxis = [0, 0, 0, 0.1, 0, 0]
     tempAxis = applyTransformArray(matrix4Mul(matrix4Translate(-0.9, -0.9, -0.9), matrixViewRotate), tempAxis)
@@ -41,6 +42,8 @@ function drawSketch() {
             if (i === selectedSketch) {
                 gl.uniform4f(currentColor, 0.0, 1.0, 0.0, 0.5)
                 let vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8]]
+                vertice = applyTransformArray(matrixView, vertice)
+
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
                 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2]), gl.STATIC_DRAW)
                 gl.drawArrays(gl.TRIANGLES, 0, 3)
@@ -55,17 +58,18 @@ function drawSketch() {
             gl.drawArrays(gl.LINES, 0, 6)
         }
     }
-
-    gl.enable(gl.DEPTH_TEST)
 }
 
 function drawPlane() {
+    gl.enable(gl.DEPTH_TEST)
     for (let i = 0; i < planeGConnection.length; i++) {
         for (let j = 0; j < planeGConnection[i].length; j++) {
             let index = planeGConnection[i][j]
             let vertice = [planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8]]
+            let verticeEdge = [planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8], planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2]]
             let normal = planeG[index]['Normal']
             vertice = applyTransformArray(matrixView, vertice)
+            verticeEdge = applyTransformArray(matrixView, verticeEdge)
             normal = applyTransform(matrixViewRotate, normal)
             
             let colorFactor = Math.max(Math.cos(vector3Angle(normal, lightReverse)), 0.1)
@@ -73,11 +77,22 @@ function drawPlane() {
             if (i === selectedPlane) {
                 gl.uniform4f(currentColor, 0.5 * colorFactor, 1.0 * colorFactor, 0.5 * colorFactor, 1.0)
             } else {
-                gl.uniform4f(currentColor, 1.0 * colorFactor, 1.0 * colorFactor, 1.0 * colorFactor, 1.0)
+                if (i === 0) {
+                    gl.uniform4f(currentColor, 1.0 * colorFactor, 1.0 * colorFactor, 1.0 * colorFactor, 1.0)
+                } else {
+                    gl.uniform4f(currentColor, 1.0 * colorFactor, 0.0 * colorFactor, 1.0 * colorFactor, 1.0)
+                }
             }
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2]), gl.STATIC_DRAW)
             gl.drawArrays(gl.TRIANGLES, 0, 3)
+
+            if (i > 0) {
+                gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticeEdge), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 3, 4, 5]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 6)
+            }
         }
     }
 }
@@ -129,6 +144,4 @@ function drawTempSketch() {
             gl.drawArrays(gl.POINTS, 0, 1)
         }
     }
-
-    gl.enable(gl.DEPTH_TEST)
 }

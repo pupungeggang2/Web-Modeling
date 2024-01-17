@@ -151,13 +151,14 @@ function matrix4Rotate(axis, degree) {
             -s, 0, c, 0,
             0, 0, 0, 1
         ]
+    } else if (axis === 2) {
+        return [
+            c, -s, 0, 0,
+            s, c, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        ]
     }
-    return [
-        c, -s, 0, 0,
-        s, c, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    ]
 }
 
 function matrix4RotateAxis(vec, degree) {

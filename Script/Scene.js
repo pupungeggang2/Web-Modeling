@@ -165,6 +165,27 @@ function mouseUpUIScene(x, y, button) {
                 sketchEdit = ''
                 selectedPlane = -1
             }
+        } else if (stateEdit === 'ExtrudeSketch') {
+            if (pointInsideRectArray(x, y, UI.buttonConfirm)) {
+                if (extrudeDistance != 0) {
+                    extrudeSketch(selectedSketch, extrudeDistance * 0.1)
+                    stateEdit = ''
+                    selectedSketch = -1
+                }
+            } else if (pointInsideRectArray(x, y, UI.buttonCancel)) {
+                stateEdit = ''
+                selectedSketch = -1
+            }
+
+            if (pointInsideRectArray(x, y, UI.buttonUp)) {
+                if (extrudeDistance < 9) {
+                    extrudeDistance += 1
+                }
+            } else if (pointInsideRectArray(x, y, UI.buttonDown)) {
+                if (extrudeDistance > -9) {
+                    extrudeDistance -= 1
+                }
+            }
         }
     } else if (state === 'Save') {
         if (pointInsideRectArray(x, y, UI.buttonConfirm)) {
@@ -203,10 +224,10 @@ function mouseMoveGScene(x, y) {
         if (stateEdit === 'CameraRotate') {
             if (mousePressed === true) {
                 let diff = [positionG[0] - mousePositionPrevious[0], positionG[1] - mousePositionPrevious[1]]
-                let matrixRotateY = matrix4Rotate(1, -diff[0] * 40)
-                let matrixRotateYInv = matrix4Rotate(1, diff[0] * 40)
-                let matrixRotateX = matrix4Rotate(0, diff[1] * 40)
-                let matrixRotateXInv = matrix4Rotate(0, -diff[1] * 40)
+                let matrixRotateY = matrix4Rotate(1, diff[0] * 40)
+                let matrixRotateYInv = matrix4Rotate(1, -diff[0] * 40)
+                let matrixRotateX = matrix4Rotate(0, -diff[1] * 40)
+                let matrixRotateXInv = matrix4Rotate(0, diff[1] * 40)
                 matrixViewRotate = matrix4Mul(matrix4Mul(matrixRotateY, matrixRotateX), matrixViewRotate)
                 matrixViewRotateInv = matrix4Mul(matrixViewRotateInv, matrix4Mul(matrixRotateXInv, matrixRotateYInv))
                 matrixView = matrix4Mul(matrixViewTranslate, matrixViewRotate)

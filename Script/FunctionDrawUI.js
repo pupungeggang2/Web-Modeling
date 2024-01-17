@@ -95,6 +95,17 @@ function drawUpperUI() {
         contextUI.drawImage(img.selectFrame, UI.buttonExtrude[0], UI.buttonExtrude[1])
 
         contextUI.fillText(`Extrude Sketch.`, UI.text[0], UI.text[1])
+
+        contextUI.strokeRect(UI.buttonCancel[0], UI.buttonCancel[1], UI.buttonCancel[2], UI.buttonCancel[3])
+        contextUI.fillText(`Back`, UI.textCancel[0], UI.textCancel[1])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
+        contextUI.fillText(`Done`, UI.textConfirm[0], UI.textConfirm[1])
+
+        contextUI.strokeRect(UI.buttonDown[0], UI.buttonDown[1], UI.buttonDown[2], UI.buttonDown[3])
+        contextUI.fillText(`-`, UI.textDown[0], UI.textDown[1])
+        contextUI.strokeRect(UI.buttonUp[0], UI.buttonUp[1], UI.buttonUp[2], UI.buttonUp[3])
+        contextUI.fillText(`+`, UI.textUp[0], UI.textUp[1])
+        contextUI.fillText(`${extrudeDistance}`, UI.textNum[0], UI.textNum[1])
     }
 
     if (state === 'Save') {

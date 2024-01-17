@@ -11,6 +11,7 @@ function newFile() {
     planeGconnection = [[0, 1]]
     planeGBody = []
     planeGID = 2
+    planeGBodyID = 0
 }
 
 // Related to sketch
@@ -33,14 +34,35 @@ function addSketchNormal(vertice, normal) {
     planeSketch.push(tempSketch)
 }
 
-function addPolygonSketch(triangle) {
-
-}
-
-
 // Related fo body
-function extrudeSketch(sketch, length) {
+function extrudeSketch(selectedSketch, length) {
+    let tempBodyConnection = []
+    let tempPlaneConnection = []
+    // Extruded Plane
+    for (let i = 0; i < planeSketchConnection[selectedSketch].length; i++) {
+        let index = planeSketchConnection[selectedSketch][i]
+        let extrudeVector = vector3Normalize(planeSketch[index]['Normal'])
+        let movedVertice = [planeSketch[index]['Vertice'][0] + extrudeVector[0] * length, planeSketch[index]['Vertice'][1] + extrudeVector[1] * length, planeSketch[index]['Vertice'][2] + extrudeVector[2] * length, planeSketch[index]['Vertice'][3] + extrudeVector[0] * length, planeSketch[index]['Vertice'][4] + extrudeVector[1] * length, planeSketch[index]['Vertice'][5] + extrudeVector[2] * length, planeSketch[index]['Vertice'][6] + extrudeVector[0] * length, planeSketch[index]['Vertice'][7] + extrudeVector[1] * length, planeSketch[index]['Vertice'][8] + extrudeVector[2] * length]
+        planeG
 
+        tempPlaneConnection.push(planeGID)
+        tempBodyConnection.push(planeGBodyID)
+        planeGID += 1
+        planeGBodyID += 1
+
+        if (length > 0) {
+            planeG.push(
+                {'Vertice' : JSON.parse(JSON.stringify(movedVertice)), 'Normal' : vector3Normalize(planeSketch[index]['Normal'])},
+            )
+        } else if (length < 0) {
+            let normal = [vector3Normalize(planeSketch[index]['Normal'])[0] * -1, vector3Normalize(planeSketch[index]['Normal'])[1] * -1, vector3Normalize(planeSketch[index]['Normal'])[2] * -1]
+            planeG.push(
+                {'Vertice' : JSON.parse(JSON.stringify(movedVertice)), 'Normal' : normal},
+            )
+        }
+    }
+    planeGConnection.push(tempPlaneConnection)
+    planeGBodyConnection.push(tempBodyConnection)
 }
 
 function addFace(vertice) {
