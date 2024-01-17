@@ -17,6 +17,10 @@ function vector3Normalize(vec) {
     return [vec[0] / norm, vec[1] / norm, vec[2] / norm]
 }
 
+function vector3ScalaMul(vec, s) {
+    return [vec[0] * s, vec[1] * s, vec[2] * s]
+}
+
 function vector3Dot(vec1, vec2) {
     return vec1[0] * vec2[0] + vec1[1] * vec2[1] + vec1[2] * vec2[2]
 }

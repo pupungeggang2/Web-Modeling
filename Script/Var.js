@@ -41,8 +41,8 @@ let planeSketch = []
 let planeSketchConnection = []
 let planeSketchID = 0
 let planeG = [
-    {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
     {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+    {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
 ]
 let planeGConnection = [[0, 1]]
 let planeGID = 2

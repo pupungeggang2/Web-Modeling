@@ -37,11 +37,12 @@ function drawSketch() {
 
     for (let i = 0; i < planeSketchConnection.length; i++) {
         for (let j = 0; j < planeSketchConnection[i].length; j++) {
+            let vertice = []
             let index = planeSketchConnection[i][j]
 
             if (i === selectedSketch) {
                 gl.uniform4f(currentColor, 0.0, 1.0, 0.0, 0.5)
-                let vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8]]
+                vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8]]
                 vertice = applyTransformArray(matrixView, vertice)
 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
@@ -50,12 +51,27 @@ function drawSketch() {
                 gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
             }
 
-            let vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8], planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2]]
-            vertice = applyTransformArray(matrixView, vertice)
+            if (j === 0) {
+                vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5]]
+                vertice = applyTransformArray(matrixView, vertice)
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 2)
+            }
 
+            vertice = [planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8]]
+            vertice = applyTransformArray(matrixView, vertice)
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 3, 4, 5]), gl.STATIC_DRAW)
-            gl.drawArrays(gl.LINES, 0, 6)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.LINES, 0, 2)
+
+            if (j === planeSketchConnection[i].length - 1) {
+                vertice = [planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8], planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2]]
+                vertice = applyTransformArray(matrixView, vertice)
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertice), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 2)
+            }
         }
     }
 }
@@ -66,12 +82,12 @@ function drawPlane() {
         for (let j = 0; j < planeGConnection[i].length; j++) {
             let index = planeGConnection[i][j]
             let vertice = [planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8]]
-            let verticeEdge = [planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8], planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2]]
+            let verticeEdge = []
             let normal = planeG[index]['Normal']
-            vertice = applyTransformArray(matrixView, vertice)
-            verticeEdge = applyTransformArray(matrixView, verticeEdge)
-            normal = applyTransform(matrixViewRotate, normal)
             
+            vertice = applyTransformArray(matrixView, vertice)
+            normal = applyTransform(matrixViewRotate, normal)
+
             let colorFactor = Math.max(Math.cos(vector3Angle(normal, lightReverse)), 0.1)
 
             if (i === selectedPlane) {
@@ -87,11 +103,28 @@ function drawPlane() {
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2]), gl.STATIC_DRAW)
             gl.drawArrays(gl.TRIANGLES, 0, 3)
 
-            if (i > 0) {
-                gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
+            gl.uniform4f(currentColor, 0.0, 0.0, 0.0, 1.0)
+
+            if (j === 0) {
+                verticeEdge = [planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2], planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5]]
+                verticeEdge = applyTransformArray(matrixView, verticeEdge)
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticeEdge), gl.STATIC_DRAW)
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 3, 4, 5]), gl.STATIC_DRAW)
-                gl.drawArrays(gl.LINES, 0, 6)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 2)
+            }
+
+            verticeEdge = [planeG[index]['Vertice'][3], planeG[index]['Vertice'][4], planeG[index]['Vertice'][5], planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8]]
+            verticeEdge = applyTransformArray(matrixView, verticeEdge)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticeEdge), gl.STATIC_DRAW)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.LINES, 0, 2)
+
+            if (j === planeGConnection[i].length - 1) {
+                verticeEdge = [planeG[index]['Vertice'][6], planeG[index]['Vertice'][7], planeG[index]['Vertice'][8], planeG[index]['Vertice'][0], planeG[index]['Vertice'][1], planeG[index]['Vertice'][2]]
+                verticeEdge = applyTransformArray(matrixView, verticeEdge)
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticeEdge), gl.STATIC_DRAW)
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1]), gl.STATIC_DRAW)
+                gl.drawArrays(gl.LINES, 0, 2)
             }
         }
     }
