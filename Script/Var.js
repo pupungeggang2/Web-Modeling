@@ -37,17 +37,16 @@ let matrixView
 let matrixViewInv
 let lightReverse = [0, 0, 1]
 
-let planeSketch = []
+let planeSketch = {}
 let planeSketchConnection = []
 let planeSketchID = 0
-let planeG = [
-    {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
-    {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
-]
+let planeG = {
+    0 : {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+    1 : {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+}
 let planeGConnection = [[0, 1]]
 let planeGID = 2
 let planeGBodyConnection = []
-let planeGBodyID = 0
 
 let selectedPlane = -1
 let selectedSketch = -1
@@ -66,5 +65,10 @@ let sketchVar = {
 }
 
 let extrudeDistance = 0
+let translateX = 0
+let translateY = 0
+let translateZ = 0
+let sketchEditVertice = []
+let bodyEditVertice = []
 
 let fileName = ''

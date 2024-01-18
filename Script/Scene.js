@@ -18,6 +18,14 @@ function displayScene() {
     if (stateEdit === 'SketchPolygon' || stateEdit === 'SketchFree') {
         drawTempSketch()
     }
+
+    if (stateEdit === 'EditBody') {
+        drawBodyEdit()
+    }
+
+    if (stateEdit === 'EditSketch') {
+        drawSketchEdit()
+    }
 }
 
 function keyDownUIScene(key) {
@@ -64,14 +72,17 @@ function mouseUpUIScene(x, y, button) {
             stateEdit = ''
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
         } else if (pointInsideRectArray(x, y, UI.buttonMove)) {
             stateEdit = 'CameraMove'
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
         } else if (pointInsideRectArray(x, y, UI.buttonRotate)) {
             stateEdit = 'CameraRotate'
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
         } else if (pointInsideRectArray(x, y, UI.buttonReset)) {
             matrixViewRotate = matrix4Identity()
             matrixViewRotateInv = matrix4Identity()
@@ -82,18 +93,32 @@ function mouseUpUIScene(x, y, button) {
             stateEdit = ''
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
         } else if (pointInsideRectArray(x, y, UI.buttonPolygon)) {
             stateEdit = 'PlanePolygon'
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
         } else if (pointInsideRectArray(x, y, UI.buttonFree)) {
             stateEdit = 'PlaneFree'
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
         } else if (pointInsideRectArray(x, y, UI.buttonExtrude)) {
             stateEdit = 'ExtrudeSelect'
             selectedPlane = -1
             selectedSketch = -1
+            selectedBody = -1
+        } else if (pointInsideRectArray(x, y, UI.buttonSelectSketch)) {
+            stateEdit = 'SelectSketch'
+            selectedPlane = -1
+            selectedSketch = -1
+            selectedBody = -1
+        } else if (pointInsideRectArray(x, y, UI.buttonSelectBody)) {
+            stateEdit = 'SelectBody'
+            selectedPlane = -1
+            selectedSketch = -1
+            selectedBody = -1
         }
 
         if (stateEdit === 'SketchPolygon') {
@@ -162,7 +187,7 @@ function mouseUpUIScene(x, y, button) {
             } else if (pointInsideRectArray(x, y, UI.buttonErase)) {
                 sketchVar.tempVertice = []
             } else if (pointInsideRectArray(x, y, UI.buttonCancel)) {
-                sketchEdit = ''
+                stateEdit = ''
                 selectedPlane = -1
             }
         } else if (stateEdit === 'ExtrudeSketch') {
@@ -185,6 +210,93 @@ function mouseUpUIScene(x, y, button) {
                 if (extrudeDistance > -9) {
                     extrudeDistance -= 1
                 }
+            }
+        } else if (stateEdit === 'EditSketch') {
+            if (pointInsideRectArray(x, y, UI.buttonCancel)) {
+                stateEdit = ''
+                selectedPlane = -1
+                selectedSketch = -1
+                selectedBody = -1
+            } else if (pointInsideRectArray(x, y, UI.buttonConfirm)) {
+                for (let i = 0; i < planeSketchConnection[selectedSketch].length; i++) {
+                    let index = planeSketchConnection[selectedSketch][i]
+                    planeSketch[index]['Vertice'] = applyTransformArray(matrix4Translate(translateX * 0.1, translateY * 0.1, translateZ * 0.1), planeSketch[index]['Vertice'])
+                }
+                stateEdit = ''
+                selectedPlane = -1
+                selectedSketch = -1
+                selectedBody = -1
+            } else if (pointInsideRectArray(x, y, UI.buttonRemoveObject)) {
+                for (let i = 0; i < planeSketchConnection[selectedSketch].length; i++) {
+                    delete planeSketch[planeSketchConnection[selectedSketch][i]]
+                }
+                planeSketchConnection.splice(selectedSketch, 1)
+                stateEdit = ''
+                selectedPlane = -1
+                selectedSketch = -1
+                selectedBody = -1
+            }
+
+            if (pointInsideRectArray(x, y, UI.buttonXDown)) {
+                translateX -= 1
+            } else if (pointInsideRectArray(x, y, UI.buttonXUp)) {
+                translateX += 1
+            } if (pointInsideRectArray(x, y, UI.buttonYDown)) {
+                translateY -= 1
+            } else if (pointInsideRectArray(x, y, UI.buttonYUp)) {
+                translateY += 1
+            } if (pointInsideRectArray(x, y, UI.buttonZDown)) {
+                translateZ -= 1
+            } else if (pointInsideRectArray(x, y, UI.buttonZUp)) {
+                translateZ += 1
+            }
+        } else if (stateEdit === 'EditBody') {
+            if (pointInsideRectArray(x, y, UI.buttonCancel)) {
+                stateEdit = ''
+                selectedPlane = -1
+                selectedSketch = -1
+                selectedBody = -1
+            } else if (pointInsideRectArray(x, y, UI.buttonConfirm)) {
+                for (let i = 0; i < planeGBodyConnection[selectedBody].length; i++) {
+                    let index = planeGBodyConnection[selectedBody][i]
+                    planeG[index]['Vertice'] = applyTransformArray(matrix4Translate(translateX * 0.1, translateY * 0.1, translateZ * 0.1), planeG[index]['Vertice'])
+                }
+                stateEdit = ''
+                selectedPlane = -1
+                selectedSketch = -1
+                selectedBody = -1
+            } else if (pointInsideRectArray(x, y, UI.buttonRemoveObject)) {
+                for (let i = 0; i < planeGBodyConnection[selectedBody].length; i++) {
+                    delete planeG[planeGBodyConnection[selectedBody][i]]
+
+                    for (let j = 0; j < planeGConnection.length; j++) {
+                        for (let k = 0; k < planeGConnection[j].length; k++) {
+                            if (planeGConnection[j][k] === planeGBodyConnection[selectedBody][i]) {
+                                planeGConnection.splice(j, 1)
+                                break
+                            }
+                        }
+                    }
+                }
+                planeGBodyConnection.splice(selectedBody, 1)
+                stateEdit = ''
+                selectedPlane = -1
+                selectedSketch = -1
+                selectedBody = -1
+            }
+
+            if (pointInsideRectArray(x, y, UI.buttonXDown)) {
+                translateX -= 1
+            } else if (pointInsideRectArray(x, y, UI.buttonXUp)) {
+                translateX += 1
+            } if (pointInsideRectArray(x, y, UI.buttonYDown)) {
+                translateY -= 1
+            } else if (pointInsideRectArray(x, y, UI.buttonYUp)) {
+                translateY += 1
+            } if (pointInsideRectArray(x, y, UI.buttonZDown)) {
+                translateZ -= 1
+            } else if (pointInsideRectArray(x, y, UI.buttonZUp)) {
+                translateZ += 1
             }
         }
     } else if (state === 'Save') {
@@ -313,8 +425,26 @@ function mouseUpGScene(x, y, button) {
                     selectedSketch = tempSelect
                     extrudeDistance = 0
                 }
-            } else if (stateEdit === 'ExtrudeSketch') {
+            } else if (stateEdit === 'SelectSketch') {
+                let tempSelect = selectSketch(positionG)
                 
+                if (tempSelect != -1) {
+                    stateEdit = 'EditSketch'
+                    selectedSketch = tempSelect
+                    translateX = 0
+                    translateY = 0
+                    translateZ = 0
+                }
+            } else if (stateEdit === 'SelectBody') {
+                let tempSelect = selectBody(positionG)
+                
+                if (tempSelect != -1) {
+                    stateEdit = 'EditBody'
+                    selectedBody = tempSelect
+                    translateX = 0
+                    translateY = 0
+                    translateZ = 0
+                }
             }
         }
     }

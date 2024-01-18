@@ -39,9 +39,73 @@ function drawUpperUI() {
 
     contextUI.drawImage(img.button.selectSketch, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
     contextUI.drawImage(img.button.selectBody, UI.buttonSelectBody[0], UI.buttonSelectBody[1])
-    contextUI.drawImage(img.button.moveObject, UI.buttonMoveObject[0], UI.buttonMoveObject[1])
-    contextUI.drawImage(img.button.rotateObject, UI.buttonRotateObject[0], UI.buttonRotateObject[1])
     contextUI.drawImage(img.button.removeObject, UI.buttonRemoveObject[0], UI.buttonRemoveObject[1])
+
+    if (state === '' && stateEdit === 'SelectSketch') {
+        contextUI.drawImage(img.selectFrame, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
+        contextUI.fillText(`Select Sketch`, UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && stateEdit === 'SelectBody') {
+        contextUI.drawImage(img.selectFrame, UI.buttonSelectBody[0], UI.buttonSelectBody[1])
+        contextUI.fillText(`Select Body`, UI.text[0], UI.text[1])
+    }
+
+    if (state === '' && stateEdit === 'EditSketch') {
+        contextUI.drawImage(img.selectFrame, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
+        contextUI.fillText(`Edit Sketch`, UI.text[0], UI.text[1])
+        
+        contextUI.strokeRect(UI.buttonCancel[0], UI.buttonCancel[1], UI.buttonCancel[2], UI.buttonCancel[3])
+        contextUI.fillText(`Back`, UI.textCancel[0], UI.textCancel[1], UI.textCancel[2], UI.textCancel[3])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
+        contextUI.fillText(`Done`, UI.textConfirm[0], UI.textConfirm[1], UI.textConfirm[2], UI.textConfirm[3])
+
+        contextUI.strokeRect(UI.buttonXDown[0], UI.buttonXDown[1], UI.buttonXDown[2], UI.buttonXDown[3])
+        contextUI.fillText(`-`, UI.textXDown[0], UI.textXDown[1])
+        contextUI.fillText(`${translateX}`, UI.textXDistance[0], UI.textXDistance[1])
+        contextUI.strokeRect(UI.buttonXUp[0], UI.buttonXUp[1], UI.buttonXUp[2], UI.buttonXUp[3])
+        contextUI.fillText(`+`, UI.textXUp[0], UI.textXUp[1])
+
+        contextUI.strokeRect(UI.buttonYDown[0], UI.buttonYDown[1], UI.buttonYDown[2], UI.buttonYDown[3])
+        contextUI.fillText(`-`, UI.textYDown[0], UI.textYDown[1])
+        contextUI.fillText(`${translateY}`, UI.textYDistance[0], UI.textYDistance[1])
+        contextUI.strokeRect(UI.buttonYUp[0], UI.buttonYUp[1], UI.buttonYUp[2], UI.buttonYUp[3])
+        contextUI.fillText(`+`, UI.textYUp[0], UI.textYUp[1])
+
+        contextUI.strokeRect(UI.buttonZDown[0], UI.buttonZDown[1], UI.buttonZDown[2], UI.buttonZDown[3])
+        contextUI.fillText(`-`, UI.textZDown[0], UI.textZDown[1])
+        contextUI.fillText(`${translateZ}`, UI.textZDistance[0], UI.textZDistance[1])
+        contextUI.strokeRect(UI.buttonZUp[0], UI.buttonZUp[1], UI.buttonZUp[2], UI.buttonZUp[3])
+        contextUI.fillText(`+`, UI.textZUp[0], UI.textZUp[1])
+    }
+
+    if (state === '' && stateEdit === 'EditBody') {
+        contextUI.drawImage(img.selectFrame, UI.buttonSelectSketch[0], UI.buttonSelectSketch[1])
+        contextUI.fillText(`Edit Body`, UI.text[0], UI.text[1])
+        
+        contextUI.strokeRect(UI.buttonCancel[0], UI.buttonCancel[1], UI.buttonCancel[2], UI.buttonCancel[3])
+        contextUI.fillText(`Back`, UI.textCancel[0], UI.textCancel[1], UI.textCancel[2], UI.textCancel[3])
+        contextUI.strokeRect(UI.buttonConfirm[0], UI.buttonConfirm[1], UI.buttonConfirm[2], UI.buttonConfirm[3])
+        contextUI.fillText(`Done`, UI.textConfirm[0], UI.textConfirm[1], UI.textConfirm[2], UI.textConfirm[3])
+
+        contextUI.strokeRect(UI.buttonXDown[0], UI.buttonXDown[1], UI.buttonXDown[2], UI.buttonXDown[3])
+        contextUI.fillText(`-`, UI.textXDown[0], UI.textXDown[1])
+        contextUI.fillText(`${translateX}`, UI.textXDistance[0], UI.textXDistance[1])
+        contextUI.strokeRect(UI.buttonXUp[0], UI.buttonXUp[1], UI.buttonXUp[2], UI.buttonXUp[3])
+        contextUI.fillText(`+`, UI.textXUp[0], UI.textXUp[1])
+
+        contextUI.strokeRect(UI.buttonYDown[0], UI.buttonYDown[1], UI.buttonYDown[2], UI.buttonYDown[3])
+        contextUI.fillText(`-`, UI.textYDown[0], UI.textYDown[1])
+        contextUI.fillText(`${translateY}`, UI.textYDistance[0], UI.textYDistance[1])
+        contextUI.strokeRect(UI.buttonYUp[0], UI.buttonYUp[1], UI.buttonYUp[2], UI.buttonYUp[3])
+        contextUI.fillText(`+`, UI.textYUp[0], UI.textYUp[1])
+
+        contextUI.strokeRect(UI.buttonZDown[0], UI.buttonZDown[1], UI.buttonZDown[2], UI.buttonZDown[3])
+        contextUI.fillText(`-`, UI.textZDown[0], UI.textZDown[1])
+        contextUI.fillText(`${translateZ}`, UI.textZDistance[0], UI.textZDistance[1])
+        contextUI.strokeRect(UI.buttonZUp[0], UI.buttonZUp[1], UI.buttonZUp[2], UI.buttonZUp[3])
+        contextUI.fillText(`+`, UI.textZUp[0], UI.textZUp[1])
+    }
 
     contextUI.drawImage(img.button.polygon, UI.buttonPolygon[0], UI.buttonPolygon[1])
     contextUI.drawImage(img.button.free, UI.buttonFree[0], UI.buttonFree[1])

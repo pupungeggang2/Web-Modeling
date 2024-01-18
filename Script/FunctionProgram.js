@@ -4,14 +4,13 @@ function newFile() {
     planeSketch = []
     planeSketchConnection = []
     planeSketchID = 0
-    planeG = [
-        {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
-        {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
-    ]
+    planeG = {
+        0 : {'Vertice' : [-0.7, -0.7, 0, 0.7, -0.7, 0, 0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+        1 : {'Vertice' : [-0.7, -0.7, 0, 0.7, 0.7, 0, -0.7, 0.7, 0], 'Normal' : [0, 0, 1]},
+    }
     planeGconnection = [[0, 1]]
     planeGBody = []
     planeGID = 2
-    planeGBodyID = 0
 }
 
 // Related to sketch
@@ -22,7 +21,7 @@ function addSketch(vertice) {
         'Normal' : normal
     }
 
-    planeSketch.push(tempSketch)
+    planeSketch[planeSketchID] = tempSketch
 }
 
 function addSketchNormal(vertice, normal) {
@@ -31,7 +30,7 @@ function addSketchNormal(vertice, normal) {
         'Normal' : normal
     }
 
-    planeSketch.push(tempSketch)
+    planeSketch[planeSketchID] = tempSketch
 }
 
 // Related fo body
@@ -46,16 +45,14 @@ function extrudeSketch(selectedSketch, distance) {
         let movedVertice = [planeSketch[index]['Vertice'][0] + extrudeVector[0] * distance, planeSketch[index]['Vertice'][1] + extrudeVector[1] * distance, planeSketch[index]['Vertice'][2] + extrudeVector[2] * distance, planeSketch[index]['Vertice'][3] + extrudeVector[0] * distance, planeSketch[index]['Vertice'][4] + extrudeVector[1] * distance, planeSketch[index]['Vertice'][5] + extrudeVector[2] * distance, planeSketch[index]['Vertice'][6] + extrudeVector[0] * distance, planeSketch[index]['Vertice'][7] + extrudeVector[1] * distance, planeSketch[index]['Vertice'][8] + extrudeVector[2] * distance]
 
         if (distance > 0) {
-            planeG.push({'Vertice' : JSON.parse(JSON.stringify(movedVertice)), 'Normal' : vector3Normalize(planeSketch[index]['Normal'])},
-            )
+            planeG[planeGID] = {'Vertice' : JSON.parse(JSON.stringify(movedVertice)), 'Normal' : vector3Normalize(planeSketch[index]['Normal'])}
         } else if (distance < 0) {
-            planeG.push({'Vertice' : JSON.parse(JSON.stringify(movedVertice)), 'Normal' : vector3ScalaMul(vector3Normalize(planeSketch[index]['Normal']), -1)})
+            planeG[planeGID] = ({'Vertice' : JSON.parse(JSON.stringify(movedVertice)), 'Normal' : vector3ScalaMul(vector3Normalize(planeSketch[index]['Normal']), -1)})
         }
 
         tempPlaneConnection.push(planeGID)
-        tempBodyConnection.push(planeGBodyID)
+        tempBodyConnection.push(planeGID)
         planeGID += 1
-        planeGBodyID += 1
     }
 
     planeGConnection.push(tempPlaneConnection)
@@ -68,16 +65,15 @@ function extrudeSketch(selectedSketch, distance) {
         let vertice = [planeSketch[index]['Vertice'][0], planeSketch[index]['Vertice'][1], planeSketch[index]['Vertice'][2], planeSketch[index]['Vertice'][3], planeSketch[index]['Vertice'][4], planeSketch[index]['Vertice'][5], planeSketch[index]['Vertice'][6], planeSketch[index]['Vertice'][7], planeSketch[index]['Vertice'][8]]
 
         if (distance < 0) {
-            planeG.push({'Vertice' : JSON.parse(JSON.stringify(vertice)), 'Normal' : vector3Normalize(planeSketch[index]['Normal'])})
+            planeG[planeGID] = {'Vertice' : JSON.parse(JSON.stringify(vertice)), 'Normal' : vector3Normalize(planeSketch[index]['Normal'])}
         } else if (distance > 0) {
             let normal = [vector3Normalize(planeSketch[index]['Normal'])[0] * -1, vector3Normalize(planeSketch[index]['Normal'])[1] * -1, vector3Normalize(planeSketch[index]['Normal'])[2] * -1]
-            planeG.push({'Vertice' : JSON.parse(JSON.stringify(vertice)), 'Normal' : normal})
+            planeG[planeGID] = {'Vertice' : JSON.parse(JSON.stringify(vertice)), 'Normal' : normal}
         }
 
         tempPlaneConnection.push(planeGID)
-        tempBodyConnection.push(planeGBodyID)
+        tempBodyConnection.push(planeGID)
         planeGID += 1
-        planeGBodyID += 1
     }
 
     planeGConnection.push(tempPlaneConnection)
@@ -97,30 +93,26 @@ function extrudeSketch(selectedSketch, distance) {
             let side2Normal = vector3Normalize(vector3Cross([side2Vertice[3] - side2Vertice[0], side2Vertice[4] - side2Vertice[1], side2Vertice[5] - side2Vertice[2]], [side2Vertice[6] - side2Vertice[0], side2Vertice[7] - side2Vertice[1], side2Vertice[8] - side2Vertice[2]]))
 
             if (distance > 0) {
-                planeG.push({'Vertice' : side1Vertice, 'Normal' : side1Normal})
+                planeG[planeGID] = ({'Vertice' : side1Vertice, 'Normal' : side1Normal})
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
     
-                planeG.push({'Vertice' : side2Vertice, 'Normal' : side2Normal})
+                planeG[planeGID] = ({'Vertice' : side2Vertice, 'Normal' : side2Normal})
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
                 planeGConnection.push(tempPlaneConnection)
             } else if (distance < 0) {
-                planeG.push({'Vertice' : side1Vertice, 'Normal' : vector3ScalaMul(side1Normal, -1)})
+                planeG[planeGID] = {'Vertice' : side1Vertice, 'Normal' : vector3ScalaMul(side1Normal, -1)}
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
     
-                planeG.push({'Vertice' : side2Vertice, 'Normal' : vector3ScalaMul(side2Normal, -1)})
+                planeG[planeGID] = {'Vertice' : side2Vertice, 'Normal' : vector3ScalaMul(side2Normal, -1)}
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
                 planeGConnection.push(tempPlaneConnection)
             }
         }
@@ -132,30 +124,27 @@ function extrudeSketch(selectedSketch, distance) {
         let side2Normal = vector3Normalize(vector3Cross([side2Vertice[3] - side2Vertice[0], side2Vertice[4] - side2Vertice[1], side2Vertice[5] - side2Vertice[2]], [side2Vertice[6] - side2Vertice[0], side2Vertice[7] - side2Vertice[1], side2Vertice[8] - side2Vertice[2]]))
 
         if (distance > 0) {
-            planeG.push({'Vertice' : side1Vertice, 'Normal' : side1Normal})
+            planeG[planeGID] = {'Vertice' : side1Vertice, 'Normal' : side1Normal}
             tempPlaneConnection.push(planeGID)
-            tempBodyConnection.push(planeGBodyID)
+            tempBodyConnection.push(planeGID)
             planeGID += 1
-            planeGBodyID += 1
 
-            planeG.push({'Vertice' : side2Vertice, 'Normal' : side2Normal})
+            planeG[planeGID] = {'Vertice' : side2Vertice, 'Normal' : side2Normal}
             tempPlaneConnection.push(planeGID)
-            tempBodyConnection.push(planeGBodyID)
+            tempBodyConnection.push(planeGID)
             planeGID += 1
-            planeGBodyID += 1
+
             planeGConnection.push(tempPlaneConnection)
         } else if (distance < 0) {
-            planeG.push({'Vertice' : side1Vertice, 'Normal' : vector3ScalaMul(side1Normal, -1)})
+            planeG[planeGID] = {'Vertice' : side1Vertice, 'Normal' : vector3ScalaMul(side1Normal, -1)}
             tempPlaneConnection.push(planeGID)
-            tempBodyConnection.push(planeGBodyID)
+            tempBodyConnection.push(planeGID)
             planeGID += 1
-            planeGBodyID += 1
 
-            planeG.push({'Vertice' : side2Vertice, 'Normal' : vector3ScalaMul(side2Normal, -1)})
+            planeG[planeGID] = {'Vertice' : side2Vertice, 'Normal' : vector3ScalaMul(side2Normal, -1)}
             tempPlaneConnection.push(planeGID)
-            tempBodyConnection.push(planeGBodyID)
+            tempBodyConnection.push(planeGID)
             planeGID += 1
-            planeGBodyID += 1
             planeGConnection.push(tempPlaneConnection)
         }
 
@@ -167,30 +156,26 @@ function extrudeSketch(selectedSketch, distance) {
             let side2Normal = vector3Normalize(vector3Cross([side2Vertice[3] - side2Vertice[0], side2Vertice[4] - side2Vertice[1], side2Vertice[5] - side2Vertice[2]], [side2Vertice[6] - side2Vertice[0], side2Vertice[7] - side2Vertice[1], side2Vertice[8] - side2Vertice[2]]))
 
             if (distance > 0) {
-                planeG.push({'Vertice' : side1Vertice, 'Normal' : vector3ScalaMul(side1Normal, -1)})
+                planeG[planeGID] = {'Vertice' : side1Vertice, 'Normal' : vector3ScalaMul(side1Normal, -1)}
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
 
-                planeG.push({'Vertice' : side2Vertice, 'Normal' : vector3ScalaMul(side2Normal, -1)})
+                planeG[planeGID] = {'Vertice' : side2Vertice, 'Normal' : vector3ScalaMul(side2Normal, -1)}
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
                 planeGConnection.push(tempPlaneConnection)
             } else if (distance < 0) {
-                planeG.push({'Vertice' : side1Vertice, 'Normal' : side1Normal})
+                planeG[planeGID] = {'Vertice' : side1Vertice, 'Normal' : side1Normal}
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
 
-                planeG.push({'Vertice' : side2Vertice, 'Normal' : side2Normal})
+                planeG[planeGID] = {'Vertice' : side2Vertice, 'Normal' : side2Normal}
                 tempPlaneConnection.push(planeGID)
-                tempBodyConnection.push(planeGBodyID)
+                tempBodyConnection.push(planeGID)
                 planeGID += 1
-                planeGBodyID += 1
                 planeGConnection.push(tempPlaneConnection)
             }
         }
@@ -270,7 +255,28 @@ function selectSketch(positionG) {
                 if (intersectionData[2] < minimumDistance) {
                     minimumDistance = intersectionData[2]
                     selected = i
-                    //tempDot = JSON.parse(JSON.stringify(intersectionData[1]))
+                    break
+                }
+            }
+        }
+    }
+
+    return selected
+}
+
+function selectBody(positionG) {
+    let minimumDistance = 99999999
+    let selected = -1
+
+    for (let i = 0; i < planeGBodyConnection.length; i++) {
+        for (let j = 0; j < planeGBodyConnection[i].length; j++) {
+            let index = planeGBodyConnection[i][j]
+            let intersectionData = linePlaneIntersection(positionG, planeG[index]['Vertice'], planeG[index]['Normal'])
+
+            if (intersectionData[0] === true) {
+                if (intersectionData[2] < minimumDistance) {
+                    minimumDistance = intersectionData[2]
+                    selected = i
                     break
                 }
             }
