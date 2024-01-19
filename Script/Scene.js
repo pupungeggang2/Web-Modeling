@@ -306,8 +306,8 @@ function mouseUpUIScene(x, y, button) {
 
                 let a = document.createElement('a')
                 a.setAttribute('id', 'TempSave')
-                a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('123'))
-                a.setAttribute('download', `${fileName}.txt`)
+                a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(modelingToObj()))
+                a.setAttribute('download', `${fileName}.obj`)
                 document.body.appendChild(a)
                 a.click()
                 document.body.removeChild(a)
